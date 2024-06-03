@@ -1,5 +1,5 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, ScanCommand, QueryCommand, PutCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, QueryCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 import "dotenv/config";
 
 const { AWSREGION, AWSDYNAMOSHHHHHHH, AWSDYNAMODBKEY } = process.env;
@@ -13,81 +13,72 @@ const dynamoClient = new DynamoDBClient({
 });
 
 const ddbDocClient = DynamoDBDocumentClient.from(dynamoClient);
-const TABLE_NAME = "UserDatabase";
+const TABLE_NAME = "UserTokens";
 
-export const getAllUsers = async () => {
+export const findResetUniqueCode = async (resetUUID) => {
+  try {
+    const params = {
+      KeyConditionExpression: "#id = :urlUuid",
+      IndexName: "urlUuid-index",
+      ExpressionAttributeValues: {
+        ":urlUuid": resetUUID,
+      },
+      ExpressionAttributeNames: {
+        "#id": "urlUuid",
+      },
+      TableName: TABLE_NAME,
+    };
+    const command = new QueryCommand(params);
+    const result = await ddbDocClient.send(command);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const findOneToken = async (lookupitem) => {
+  try {
+    const params = {
+      KeyConditionExpression: "#id = :lookupitem",
+      ExpressionAttributeValues: {
+        ":lookupitem": lookupitem,
+      },
+      ExpressionAttributeNames: {
+        "#id": "id",
+      },
+      TableName: TABLE_NAME,
+    };
+    const command = new QueryCommand(params);
+    const result = await ddbDocClient.send(command);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteTokenByAccount = async (lookupitem) => {
   const params = {
     TableName: TABLE_NAME,
+    Key: {
+      lookupitem: lookupitem,
+    },
   };
 
-  const command = new ScanCommand(params);
-  const discs = await ddbDocClient.send(command);
-  return discs;
+  const deleteCommand = new DeleteCommand(params);
+  const deleteResponse = await ddbDocClient.send(deleteCommand);
+  return deleteResponse;
 };
 
-export const findOneUserName = async (username) => {
-  try {
-    const params = {
-      KeyConditionExpression: "#id = :username",
-      ExpressionAttributeValues: {
-        ":username": username,
-      },
-      ExpressionAttributeNames: {
-        "#id": "username",
-      },
-      TableName: TABLE_NAME,
-    };
-
-    const command = new QueryCommand(params);
-    const result = await ddbDocClient.send(command);
-    return result;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const findOneUserByEmail = async (email) => {
-  try {
-    const params = {
-      KeyConditionExpression: "#email = :email",
-      ExpressionAttributeValues: {
-        ":email": email,
-      },
-      ExpressionAttributeNames: {
-        "#email": "email",
-      },
-      TableName: TABLE_NAME,
-    };
-
-    const command = new QueryCommand(params);
-    const result = await ddbDocClient.send(command);
-    return result;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const addUserToUserDatabase = async (item) => {
+export const addTokenToTable = async (item) => {
   const params = {
     TableName: TABLE_NAME,
     Item: item,
     ReturnValues: "ALL_OLD",
   };
 
-  const command = new PutCommand(params);
-  const result = await ddbDocClient.send(command);
-  return result;
-};
+  const putCommand = new PutCommand(params);
+  const result = await ddbDocClient.send(putCommand);
 
-export const deleteAccountById = async (id) => {
-  const params = {
-    TableName: TABLE_NAME,
-    Key: {
-      id: id,
-    },
-  };
-
-  const command = new DeleteCommand(params);
-  const result = await ddbDocClient.send(command);
+  console.log("this is add to list result", result);
   return result;
 };

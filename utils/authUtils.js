@@ -17,7 +17,7 @@ export function generateRefreshToken(username, email, isAdmin, id) {
 }
 
 export async function addToList(user, refresher) {
-  const TTL_DELTA = 60 * 60; //Keep records for 30 days
+  const TTL_DELTA = 60 * 60 * 24 * 30; //Keep records for 30 days
   // const TTL_DELTA = 60; //Keep records for 30 days
 
   try {

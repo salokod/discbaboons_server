@@ -45,16 +45,16 @@ describe("routes", () => {
     }
 
     it("throws error when server is down", async () => {
-      jest.doMock("axios", () => {
-        return {
-          get: jest.fn(() => Promise.reject({ response: { status: 500 } })),
-        };
-      });
+      // jest.doMock("axios", () => {
+      //   return {
+      //     get: jest.fn(() => Promise.reject({ response: { status: 500 } })),
+      //   };
+      // });
 
       const axios = require("axios");
 
       try {
-        await axios.get(`${baseURL}/api/v2/public/lol`);
+        await axios.get(`${baseURL}/api/v2/public/error`);
       } catch (error) {
         expect(error.response.status).toBe(500);
         expect(error).toBeTruthy();

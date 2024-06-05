@@ -79,6 +79,5 @@ export const addTokenToTable = async (item) => {
   const putCommand = new PutCommand(params);
   const result = await ddbDocClient.send(putCommand);
 
-  console.log("this is add to list result", result);
   return result;
 };

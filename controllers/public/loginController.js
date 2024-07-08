@@ -12,13 +12,13 @@ const loginController = async (req, res) => {
     //if username is greater than 3 and less than 30
     const userExist = await findOneUserName(username);
     if (userExist.Count === 0) {
-      return res.status(400).json({ message: "Login failed, try again later" });
+      return res.status(400).json({ message: "Invalid username or password, you baboon..." });
     }
 
     const hashPassword = userExist.Items[0].password;
     const validPassword = bcrypt.compareSync(password, hashPassword);
     if (!validPassword) {
-      return res.status(400).json({ message: "Login failed, try again later" });
+      return res.status(400).json({ message: "Invalid username or password, you baboon..." });
     }
 
     const token = generateAccessToken(req.body.username.toLowerCase(), userExist.Items[0].email, userExist.Items[0].isAdmin, userExist.Items[0].id);
@@ -28,8 +28,9 @@ const loginController = async (req, res) => {
     CreateActCookie(req, res, token);
     CreateRtCookie(req, res, refreshToken);
 
-    return res.status(200).json({ message: "Signin successful" });
+    return res.status(200).json({ message: "Welcome back, you baboon...", token: token, rt: refreshToken, tokenTTL: Math.floor(+new Date() / 1000) + 60 * 60 * 24 * 7 });
   } catch {
+    // console.log(error);
     return res.status(500).json({ message: "Signin unsuccessful, try again later." });
   }
 };

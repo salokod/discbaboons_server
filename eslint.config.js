@@ -11,6 +11,7 @@ export default [
       },
     },
     ignores: ["coverage/**", "node_modules/**"],
+    rules: { "no-unused-vars": ["error", { varsIgnorePattern: "^(nothingHere|isAdmin|dateCreated)$" }] },
   },
   pluginJs.configs.recommended,
 ];

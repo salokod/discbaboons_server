@@ -6,7 +6,7 @@ import { CreateActCookie, CreateRtCookie } from "./cookieUtils.js";
 export function generateAccessToken(username, email, isAdmin, id) {
   // console.log("signed id", id);
   return jwt.sign({ user: username, email: email, isAdmin: isAdmin, id: id }, process.env.SECRET_TOKEN, {
-    expiresIn: "1d",
+    expiresIn: "7d",
   });
 }
 
@@ -26,8 +26,8 @@ export async function addToList(user, refresher) {
       refresher: refresher,
       refresh_ttl: Math.floor(+new Date() / 1000) + TTL_DELTA,
     });
-  } catch (error) {
-    console.log("add to list", error);
+  } catch {
+    console.log("add to list");
   }
 }
 export async function addToListMobile(user, refresher) {

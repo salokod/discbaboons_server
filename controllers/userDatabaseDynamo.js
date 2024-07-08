@@ -57,13 +57,14 @@ export const findOneUserByEmail = async (email) => {
         "#email": "email",
       },
       TableName: TABLE_NAME,
+      IndexName: "email-index",
     };
 
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
   } catch (error) {
-    console.error(error);
+    console.error("error", error);
   }
 };
 

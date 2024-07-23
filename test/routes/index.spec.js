@@ -7,7 +7,8 @@ import bcrypt from "bcrypt";
 import { expect, describe } from "@jest/globals";
 import todaysDateFunc from "../../utils/easeOfUseFunc.js";
 import { addToList, generateAccessToken } from "../../utils/authUtils.js";
-import { addTokenToTable } from "../../controllers/userTokenDynamo.js";
+import { addTokenToTable, findResetUniqueCode } from "../../controllers/userTokenDynamo.js";
+
 const uuidv4 = require("uuid").v4;
 import Chance from "chance";
 import { sendEmail } from "../../utils/sendEmail.js";
@@ -22,6 +23,7 @@ jest.mock("../../utils/authUtils.js", () => ({
 
 jest.mock("../../controllers/userTokenDynamo.js", () => ({
   addTokenToTable: jest.fn(),
+  findResetUniqueCode: jest.fn(),
 }));
 
 jest.mock("../../controllers/userDatabaseDynamo.js", () => ({
@@ -959,6 +961,226 @@ describe("check the /public/auth/forgotpassword endpoint", () => {
       expect(true).toBe(false);
     } catch (error) {
       expect(error.response.status).toBe(500);
+    }
+  });
+});
+
+describe("check the /public/auth/validatereset endpoint", () => {
+  let server;
+  let baseURL;
+
+  beforeAll((done) => {
+    server = http.createServer(app);
+    server.listen(done);
+    baseURL = `http://localhost:${server.address().port}`;
+    sendEmail.mockClear();
+  });
+
+  afterAll((done) => {
+    server.close(done);
+  });
+
+  it("/public/auth/validatereset - returns 404 if findreset count is 0", async () => {
+    expect.assertions(1);
+
+    findResetUniqueCode.mockResolvedValue({
+      Items: [],
+      Count: 0,
+      ScannedCount: 0,
+    });
+
+    try {
+      await axios.post(`${baseURL}/api/v2/public/auth/validatereset`, {
+        code: 12345,
+        requestUUID: "mockedRequestUUID",
+      });
+
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error.response.status).toBe(404);
+    }
+  });
+
+  it("/public/auth/validatereset - returns 200 if findreset count is 1", async () => {
+    expect.assertions(1);
+
+    findResetUniqueCode.mockResolvedValue({
+      Items: [{ uniqueCode: 12345 }],
+      Count: 1,
+      ScannedCount: 1,
+    });
+
+    try {
+      const response = await axios.post(`${baseURL}/api/v2/public/auth/validatereset`, {
+        code: 12345,
+        requestUUID: "mockedRequestUUID",
+      });
+      expect(response.status).toBe(200);
+    } catch {
+      expect(true).toBe(false);
+    }
+  });
+
+  it("/public/auth/validatereset - returns 400 if code is missing from payload", async () => {
+    expect.assertions(1);
+
+    // findResetUniqueCode.mockResolvedValue({
+    //   Items: [{ uniqueCode: 12345 }],
+    //   Count: 1,
+    //   ScannedCount: 1,
+    // });
+
+    try {
+      const response = await axios.post(`${baseURL}/api/v2/public/auth/validatereset`, {
+        requestUUID: "mockedRequestUUID",
+      });
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error.response.status).toBe(400);
+    }
+  });
+
+  it("/public/auth/validatereset - returns 400 if requestUUID is missing from payload", async () => {
+    expect.assertions(1);
+
+    // findResetUniqueCode.mockResolvedValue({
+    //   Items: [{ uniqueCode: 12345 }],
+    //   Count: 1,
+    //   ScannedCount: 1,
+    // });
+
+    try {
+      const response = await axios.post(`${baseURL}/api/v2/public/auth/validatereset`, {
+        code: 1234,
+      });
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error.response.status).toBe(400);
+    }
+  });
+
+  it("/public/auth/validatereset - returns 400 if code is a string", async () => {
+    expect.assertions(1);
+
+    // findResetUniqueCode.mockResolvedValue({
+    //   Items: [{ uniqueCode: 12345 }],
+    //   Count: 1,
+    //   ScannedCount: 1,
+    // });
+
+    try {
+      const response = await axios.post(`${baseURL}/api/v2/public/auth/validatereset`, {
+        code: "notanumber1234",
+        requestUUID: "mockedRequestUUID",
+      });
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error.response.status).toBe(400);
+    }
+  });
+});
+
+describe("check the /public/auth/changepass endpoint", () => {
+  let server;
+  let baseURL;
+
+  beforeAll((done) => {
+    server = http.createServer(app);
+    server.listen(done);
+    baseURL = `http://localhost:${server.address().port}`;
+    sendEmail.mockClear();
+  });
+
+  afterAll((done) => {
+    server.close(done);
+  });
+
+  it("/public/auth/changepass - returns 405 if type is not POST", async () => {
+    const methods = ["get", "put", "delete"];
+    expect.assertions(methods.length);
+
+    for (let method of methods) {
+      try {
+        await axios[method](`${baseURL}/api/v2/public/auth/changepass`);
+
+        expect(true).toBe(false);
+      } catch (error) {
+        expect(error.response.status).toBe(405);
+      }
+    }
+  });
+
+  it("/public/auth/changepass -  returns 400 if 'requestUUID' is missing", async () => {
+    try {
+      await axios.post(`${baseURL}/api/v2/public/auth/changepass`, {
+        code: 12345,
+        newPassword: "newPassword",
+      });
+      expect(true).toBe(false); // Fail test if the above line does not throw
+    } catch (error) {
+      expect(error.response.status).toBe(400);
+    }
+  });
+
+  it("/public/auth/changepass - returns 400 if 'code' is missing", async () => {
+    try {
+      await axios.post(`${baseURL}/api/v2/public/auth/changepass`, {
+        newPassword: "newPassword",
+        requestUUID: "mockedRequestUUID",
+      });
+      expect(true).toBe(false); // Fail test if the above line does not throw
+    } catch (error) {
+      expect(error.response.status).toBe(400);
+    }
+  });
+
+  it("/public/auth/changepass - returns 400 if 'newPassword' is missing", async () => {
+    try {
+      await axios.post(`${baseURL}/api/v2/public/auth/changepass`, {
+        code: 12345,
+        requestUUID: "mockedRequestUUID",
+      });
+      expect(true).toBe(false); // Fail test if the above line does not throw
+    } catch (error) {
+      expect(error.response.status).toBe(400);
+    }
+  });
+
+  it("/public/auth/changepass - returns 200 if 'code' is correct", async () => {
+    try {
+      findResetUniqueCode.mockResolvedValue({
+        Items: [{ uniqueCode: 123456, username: "testuser" }],
+        Count: 1,
+        ScannedCount: 1,
+      });
+
+      const response = await axios.post(`${baseURL}/api/v2/public/auth/changepass`, {
+        code: 123456,
+        requestUUID: "mockedRequestUUID",
+        newPassword: "newPassword",
+      });
+      expect(response.status).toBe(200);
+    } catch {
+      expect(true).toBe(false); // Fail test if the above line does not throw
+    }
+  });
+
+  it("/public/auth/changepass - returns 404 if 'code' is incorrect", async () => {
+    try {
+      findResetUniqueCode.mockResolvedValue({
+        Items: [{ uniqueCode: 123456, username: "testuser" }],
+        Count: 1,
+        ScannedCount: 1,
+      });
+
+      await axios.post(`${baseURL}/api/v2/public/auth/changepass`, {
+        code: 123457,
+        requestUUID: "mockedRequestUUID",
+        newPassword: "newPassword",
+      });
+      expect(true).toBe(false); // Fail test if the above line does not throw
+    } catch (error) {
+      expect(error.response.status).toBe(404);
     }
   });
 });

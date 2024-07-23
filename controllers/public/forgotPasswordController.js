@@ -29,8 +29,8 @@ const forgotPasswordController = async (req, res) => {
       });
 
       const subject = "Reset password instructions, you baboon...";
-      const body = `Return to your DiscBaboons app and enter this code:\n ${uniqueCode}\n\n This request will be good for 1 hour.`;
-      const htmlBody = `Return to your DiscBaboons app and enter this code:\n <b>${uniqueCode}</b>\n\n This request will be good for 1 hour.`;
+      const body = `Return to your DiscBaboons app and enter this code:\n ${uniqueCode}\n\n.  This code will be good for 1 hour.`;
+      const htmlBody = `Return to your DiscBaboons app and enter this code:\n <b>${uniqueCode}</b>\n\n. This code will be good for 1 hour.`;
       const emailSend = await sendEmail(subject, body, htmlBody, userExist.Items[0].email);
 
       if (!emailSend) {

@@ -1,7 +1,8 @@
-import bcrypt from 'bcrypt';
-import Joi from 'joi';
-import { addUserToUserDatabase, findOneUserName } from '../userDatabaseDynamo';
-import { findResetUniqueCode } from '../userTokenDynamo';
+import bcrypt from "bcrypt";
+import { addUserToUserDatabase, findOneUserName } from "../userDatabaseDynamo.js";
+import { findResetUniqueCode } from "../userTokenDynamo.js";
+
+import Joi from "joi";
 
 const schema = Joi.object({
   requestUUID: Joi.string().required(),
@@ -22,8 +23,8 @@ const changePasswordController = async (req, res) => {
     const uuidExist = await findResetUniqueCode(requestUUID);
 
     if (uuidExist.Count === 1) {
-      const { uniqueCode } = uuidExist.Items[0];
-      const uuidUsername = uuidExist.Items[0].username;
+      let uniqueCode = uuidExist.Items[0].uniqueCode;
+      let uuidUsername = uuidExist.Items[0].username;
 
       if (code === uniqueCode) {
         const saltRounds = 12;
@@ -42,15 +43,17 @@ const changePasswordController = async (req, res) => {
 
         await addUserToUserDatabase(userPayload);
 
-        return res.status(200).json({
-          message: 'Password Changed.',
+        res.status(200).json({
+          message: "Password Changed.",
         });
+      } else {
+        res.status(404).json({ message: "Wrong Request or wrong code" });
       }
-      return res.status(404).json({ message: 'Wrong Request or wrong code' });
+    } else {
+      res.status(404).json({ message: "Wrong Request or wrong code" });
     }
-    return res.status(404).json({ message: 'Wrong Request or wrong code' });
   } catch {
-    return res.status(500).json({ message: 'Error, try again later.' });
+    res.status(500).json({ message: "Error, try again later." });
   }
 };
 

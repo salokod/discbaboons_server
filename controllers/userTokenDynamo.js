@@ -1,8 +1,6 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import {
-  DynamoDBDocumentClient, PutCommand, QueryCommand, DeleteCommand,
-} from '@aws-sdk/lib-dynamodb';
-import 'dotenv/config';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, QueryCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
+import "dotenv/config";
 
 const { AWSREGION, AWSDYNAMOSHHHHHHH, AWSDYNAMODBKEY } = process.env;
 
@@ -15,46 +13,46 @@ const dynamoClient = new DynamoDBClient({
 });
 
 const ddbDocClient = DynamoDBDocumentClient.from(dynamoClient);
-const TABLE_NAME = 'UserTokens';
+const TABLE_NAME = "UserTokens";
 
 export const findResetUniqueCode = async (resetUUID) => {
   try {
     const params = {
-      KeyConditionExpression: '#id = :urlUuid',
-      IndexName: 'urlUuid-index',
+      KeyConditionExpression: "#id = :urlUuid",
+      IndexName: "urlUuid-index",
       ExpressionAttributeValues: {
-        ':urlUuid': resetUUID,
+        ":urlUuid": resetUUID,
       },
       ExpressionAttributeNames: {
-        '#id': 'urlUuid',
+        "#id": "urlUuid",
       },
       TableName: TABLE_NAME,
     };
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch {
-    return false;
+  } catch (error) {
+    console.error(error);
   }
 };
 
 export const findOneToken = async (lookupitem) => {
   try {
     const params = {
-      KeyConditionExpression: '#id = :lookupitem',
+      KeyConditionExpression: "#id = :lookupitem",
       ExpressionAttributeValues: {
-        ':lookupitem': lookupitem,
+        ":lookupitem": lookupitem,
       },
       ExpressionAttributeNames: {
-        '#id': 'id',
+        "#id": "id",
       },
       TableName: TABLE_NAME,
     };
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch {
-    return false;
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -62,7 +60,7 @@ export const deleteTokenByAccount = async (lookupitem) => {
   const params = {
     TableName: TABLE_NAME,
     Key: {
-      lookupitem,
+      lookupitem: lookupitem,
     },
   };
 
@@ -75,7 +73,7 @@ export const addTokenToTable = async (item) => {
   const params = {
     TableName: TABLE_NAME,
     Item: item,
-    ReturnValues: 'ALL_OLD',
+    ReturnValues: "ALL_OLD",
   };
 
   const putCommand = new PutCommand(params);

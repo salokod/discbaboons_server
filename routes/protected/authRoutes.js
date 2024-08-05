@@ -1,5 +1,5 @@
 // routes/authRoutes.js
-import router from "../../router.js";
+import router from '../../router';
 
 // More user routes...
 

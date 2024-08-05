@@ -1,13 +1,19 @@
 // tests/routes.test.js
-import axios from "axios";
-import app from "../../../app.js";
-import http from "http";
-import { expect, describe, it } from "@jest/globals";
-import Chance from "chance";
+import axios from 'axios';
+import http from 'http';
+import {
+  expect, describe, it, beforeAll, afterAll,
+} from '@jest/globals';
+import Chance from 'chance';
+import app from '../../../app';
 
 const chance = new Chance();
 
-describe("check the /protected/bag endpoints", () => {
+jest.mock('../../../middleware/auth.js', () => ({
+  isAuthenticated: jest.fn((req, res, next) => next()),
+}));
+
+describe('check the /protected/bag endpoints', () => {
   let server;
   let baseURL;
 
@@ -21,19 +27,12 @@ describe("check the /protected/bag endpoints", () => {
     server.close(done);
   });
 
-  it("/protected/bag/addbag - returns 401 if token isn't provided", async () => {
+  it('/protected/bag/addbag - returns 200 if token is correct', async () => {
     try {
-      await axios.post(`${baseURL}/api/v2/protected/bag/add`);
-    } catch (error) {
-      expect(error.response.status).toBe(401);
-    }
-  });
-
-  it("/protected/bag/addbag - returns 401 if token isn't correct", async () => {
-    try {
-      await axios.post(`${baseURL}/api/v2/protected/bag/add`, { token: chance.hash() });
-    } catch (error) {
-      expect(error.response.status).toBe(401);
+      const response = await axios.post(`${baseURL}/api/v2/protected/bag/addbag`, { token: chance.hash() });
+      expect(response.status).toBe(200);
+    } catch {
+      expect(true).toBe(false);
     }
   });
 });

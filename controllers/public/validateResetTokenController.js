@@ -1,5 +1,5 @@
-import { findResetUniqueCode } from "../userTokenDynamo.js";
-import Joi from "joi";
+import Joi from 'joi';
+import { findResetUniqueCode } from '../userTokenDynamo.js';
 
 const schema = Joi.object({
   requestUUID: Joi.string().required(),
@@ -19,21 +19,19 @@ const validateResetTokenController = async (req, res) => {
     const uuidExist = await findResetUniqueCode(requestUUID);
 
     if (uuidExist.Count === 1) {
-      let uniqueCode = uuidExist.Items[0].uniqueCode;
+      const { uniqueCode } = uuidExist.Items[0];
 
       if (code === uniqueCode) {
-        res.status(200).json({
-          message: "Correct code.",
+        return res.status(200).json({
+          message: 'Correct code.',
         });
-      } else {
-        res.status(404).json({ message: "Wrong Request or wrong code" });
       }
-    } else {
-      res.status(404).json({ message: "Wrong Request or wrong code" });
+      return res.status(404).json({ message: 'Wrong Request or wrong code' });
     }
+    return res.status(404).json({ message: 'Wrong Request or wrong code' });
   } catch {
     // console.log("error", error);
-    res.status(500).json({ message: "Error, try again later." });
+    return res.status(500).json({ message: 'Error, try again later.' });
   }
 };
 

@@ -1,6 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 // middleware/auth.js
+// eslint-disable-next-line import/prefer-default-export, consistent-return
 export const isAuthenticated = (req, res, next) => {
   // This is a placeholder for authentication logic.
   // In a real-world application, you would check if the user is authenticated here.
@@ -13,6 +14,6 @@ export const isAuthenticated = (req, res, next) => {
       next();
     }
   } catch {
-    return res.status(401).json({ message: "Baboon not logged in" });
+    return res.status(401).json({ message: 'Baboon not logged in' });
   }
 };

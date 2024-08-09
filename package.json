@@ -9,6 +9,7 @@
     "test": "jest --verbose --watchAll",
     "dev": "nodemon index.js",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "start": "node index.js"
   },
   "author": "Spiro Dokolas",

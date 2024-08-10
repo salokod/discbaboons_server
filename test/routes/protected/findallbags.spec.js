@@ -35,15 +35,33 @@ describe('check the /protected/findallbags endpoints', () => {
 
   it('/protected/bag/findallbags - returns 200 if all is well', async () => {
     try {
-      const newBagJSON = {
-        bagName: chance.animal(),
-        isPrimary: false,
-        token: chance.string(),
-        bagId: chance.guid(),
+      const testPayload = {
+        Count: 1,
+        Items: [{
+          isPrimary: true,
+          baboonid: chance.guid(),
+          bagName: chance.string(),
+          baboontype: chance.guid(),
+          bagColor: chance.color({ format: 'hex' }),
+        }],
       };
-      updateBag.mockResolvedValue(true);
+      findAllBags.mockResolvedValue(testPayload);
 
-      const response = await axios.get(`${baseURL}/api/v2/protected/bag/findallbags`, newBagJSON);
+      const response = await axios.get(`${baseURL}/api/v2/protected/bag/findallbags`);
+      expect(response.status).toBe(200);
+    } catch (error) {
+      expect(true).toBe(false);
+    }
+  });
+  it('/protected/bag/findallbags - returns 200 if all is well, and bag is empty', async () => {
+    try {
+      const testPayload = {
+        Count: 1,
+        Items: [],
+      };
+      findAllBags.mockResolvedValue(testPayload);
+
+      const response = await axios.get(`${baseURL}/api/v2/protected/bag/findallbags`);
       expect(response.status).toBe(200);
     } catch (error) {
       expect(true).toBe(false);
@@ -52,15 +70,9 @@ describe('check the /protected/findallbags endpoints', () => {
 
   it('/protected/bag/findallbags - returns 500 if aws call fails', async () => {
     try {
-      const newBagJSON = {
-        bagName: chance.animal(),
-        isPrimary: false,
-        token: chance.string(),
-        bagId: chance.guid(),
-      };
       findAllBags.mockRejectedValue(false);
 
-      await axios.get(`${baseURL}/api/v2/protected/bag/findallbags`, newBagJSON);
+      await axios.get(`${baseURL}/api/v2/protected/bag/findallbags`);
       expect(true).toBe(false);
     } catch (error) {
       expect(error.response.status).toBe(500);

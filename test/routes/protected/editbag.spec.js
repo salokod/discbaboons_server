@@ -47,7 +47,6 @@ describe('check the /protected/editbag endpoints', () => {
       const response = await axios.post(`${baseURL}/api/v2/protected/bag/editbag`, newBagJSON);
       expect(response.status).toBe(200);
     } catch (error) {
-      console.log(error.response.data)
       expect(true).toBe(false);
     }
   });

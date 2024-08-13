@@ -1,15 +1,9 @@
 import express from 'express';
-import addBagController from '../../../controllers/protected/bag/addBagController.js';
-import deleteBagController from '../../../controllers/protected/bag/deleteBagController.js';
-import editBagController from '../../../controllers/protected/bag/editBagController.js';
-import findAllBagController from '../../../controllers/protected/bag/findAllBagController.js.js';
+import addDiscController from '../../../controllers/protected/discs/addDiscController.js';
 
 const router = express.Router();
 
-router.post('/addbag', addBagController);
-router.post('/deletebag', deleteBagController);
-router.post('/editbag', editBagController);
-router.get('/findallbags', findAllBagController);
+router.post('/adddisc', addDiscController);
 
 const endpoints = ['/addbag'];
 

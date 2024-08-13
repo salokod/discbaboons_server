@@ -17,7 +17,7 @@ jest.mock('../../../../middleware/auth.js', () => ({
   }),
 }));
 
-describe('check the /protected/editbag endpoints', () => {
+describe('check the /protected/bag/editbag endpoints', () => {
   let server;
   let baseURL;
 

@@ -5,11 +5,10 @@ import { expect, describe, it } from '@jest/globals';
 import Chance from 'chance';
 import app from '../../../../app.js';
 
-import { addToUserTable, deleteBagById } from '../../../../controllers/discBaboonUserDataBaseDynamo.js';
+import { addToUserTable } from '../../../../controllers/discBaboonUserDataBaseDynamo.js';
 
 jest.mock('../../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
   addToUserTable: jest.fn(() => true),
-  deleteBagById: jest.fn(),
 }));
 
 jest.mock('../../../../middleware/auth.js', () => ({
@@ -19,7 +18,7 @@ jest.mock('../../../../middleware/auth.js', () => ({
   }),
 }));
 
-describe('check the /protected/deletebag endpoints', () => {
+describe('check the /protected/bag/addbag endpoints', () => {
   let server;
   let baseURL;
 
@@ -35,57 +34,65 @@ describe('check the /protected/deletebag endpoints', () => {
     server.close(done);
   });
 
-  it('/protected/bag/deletebag - returns 200 if all is well', async () => {
+  it('/protected/bag/addbag - returns 200 if all is well', async () => {
     try {
       const newBagJSON = {
-        bagId: chance.guid(),
+        bagName: chance.animal(),
+        bagColor: chance.color({ format: 'hex' }),
+        isPrimary: false,
       };
       addToUserTable.mockResolvedValue(true);
 
-      const response = await axios.post(`${baseURL}/api/v2/protected/bag/deletebag`, newBagJSON);
+      const response = await axios.post(`${baseURL}/api/v2/protected/bag/addbag`, newBagJSON);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });
-  it('/protected/bag/deletebag - returns 400 if all if bagId is not in payload', async () => {
+  it('/protected/bag/addbag - returns 400 if all if bagName is not in payload', async () => {
     try {
       const newBagJSON = {
-      };
-      // addToUserTable.mockResolvedValue(true);
-
-      await axios.post(`${baseURL}/api/v2/protected/bag/deletebag`, newBagJSON);
-      expect(true).toBe(false);
-    } catch (error) {
-      expect(error.response.status).toBe(400);
-    }
-  });
-  it('/protected/bag/deletebag - returns 400 if all if random field is in payload', async () => {
-    try {
-      const newBagJSON = {
-        bagId: chance.animal(),
+        bagColor: '#FFFFFF',
         isPrimary: false,
+        token: chance.string(),
       };
       // addToUserTable.mockResolvedValue(true);
 
-      await axios.post(`${baseURL}/api/v2/protected/bag/deletebag`, newBagJSON);
+      await axios.post(`${baseURL}/api/v2/protected/bag/addbag`, newBagJSON);
       expect(true).toBe(false);
     } catch (error) {
       expect(error.response.status).toBe(400);
     }
   });
-  it('/protected/bag/deletebag - returns 500 if all if aws call fails', async () => {
+  it('/protected/bag/addbag - returns 400 if all if bagColor is not in payload', async () => {
     try {
       const newBagJSON = {
-        bagId: chance.animal(),
+        bagName: chance.animal(),
+        isPrimary: false,
+        token: chance.string(),
       };
       // addToUserTable.mockResolvedValue(true);
-      deleteBagById.mockRejectedValue(new Error('AWS Failure'));
 
-      await axios.post(`${baseURL}/api/v2/protected/bag/deletebag`, newBagJSON);
+      await axios.post(`${baseURL}/api/v2/protected/bag/addbag`, newBagJSON);
       expect(true).toBe(false);
     } catch (error) {
-      expect(error.response.status).toBe(500);
+      expect(error.response.status).toBe(400);
+    }
+  });
+  it('/protected/bag/addbag - returns 400 if all if bagColor is not in hex code format payload', async () => {
+    try {
+      const newBagJSON = {
+        bagName: chance.animal(),
+        isPrimary: false,
+        token: chance.string(),
+        bagColor: chance.states(),
+      };
+      // addToUserTable.mockResolvedValue(true);
+
+      await axios.post(`${baseURL}/api/v2/protected/bag/addbag`, newBagJSON);
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error.response.status).toBe(400);
     }
   });
 });

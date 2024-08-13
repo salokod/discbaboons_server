@@ -3,14 +3,14 @@ import axios from 'axios';
 import http from 'http';
 import { expect, describe, it } from '@jest/globals';
 import Chance from 'chance';
-import app from '../../../app.js';
-import { updateBag } from '../../../controllers/discBaboonUserDataBaseDynamo.js';
+import app from '../../../../app.js';
+import { updateBag } from '../../../../controllers/discBaboonUserDataBaseDynamo.js';
 
-jest.mock('../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
+jest.mock('../../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
   updateBag: jest.fn(),
 }));
 
-jest.mock('../../../middleware/auth.js', () => ({
+jest.mock('../../../../middleware/auth.js', () => ({
   isAuthenticated: jest.fn((req, res, next) => {
     req.jwt = { id: 'mockedBaboonId' };
     next();
@@ -38,7 +38,6 @@ describe('check the /protected/editbag endpoints', () => {
       const newBagJSON = {
         bagName: chance.animal(),
         isPrimary: false,
-        token: chance.string(),
         bagId: chance.guid(),
         bagColor: chance.color({ format: 'hex' }),
       };
@@ -56,7 +55,6 @@ describe('check the /protected/editbag endpoints', () => {
       const newBagJSON = {
         bagName: chance.animal(),
         isPrimary: false,
-        token: chance.string(),
         bagId: chance.guid(),
         bagColor: chance.color({ format: 'hex' }),
 
@@ -76,7 +74,6 @@ describe('check the /protected/editbag endpoints', () => {
       const newBagJSON = {
         bagName: chance.animal(),
         isPrimary: false,
-        token: chance.string(),
         bagId: chance.guid(),
       };
 

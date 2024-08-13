@@ -3,14 +3,14 @@ import axios from 'axios';
 import http from 'http';
 import { expect, describe, it } from '@jest/globals';
 import Chance from 'chance';
-import app from '../../../app.js';
-import { findAllBags } from '../../../controllers/discBaboonUserDataBaseDynamo.js';
+import app from '../../../../app.js';
+import { findAllBags } from '../../../../controllers/discBaboonUserDataBaseDynamo.js';
 
-jest.mock('../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
+jest.mock('../../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
   findAllBags: jest.fn(),
 }));
 
-jest.mock('../../../middleware/auth.js', () => ({
+jest.mock('../../../../middleware/auth.js', () => ({
   isAuthenticated: jest.fn((req, res, next) => {
     req.jwt = { id: 'mockedBaboonId' };
     next();

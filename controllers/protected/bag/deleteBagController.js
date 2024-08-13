@@ -3,7 +3,6 @@ import { deleteBagById } from '../../discBaboonUserDataBaseDynamo.js';
 
 const schema = Joi.object({
   bagId: Joi.string().required(),
-  token: Joi.string().required(),
 });
 
 const deleteBagController = async (req, res) => {

@@ -11,7 +11,7 @@ describe('isAuthenticated middleware', () => {
     next;
 
   beforeEach(() => {
-    req = { body: { token: 'testToken' } };
+    req = { headers: { authorization: 'Bearer thisbetoken' } };
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
@@ -24,7 +24,7 @@ describe('isAuthenticated middleware', () => {
 
     isAuthenticated(req, res, next);
 
-    expect(jwt.verify).toHaveBeenCalledWith('testToken', process.env.SECRET_TOKEN);
+    expect(jwt.verify).toHaveBeenCalledWith('thisbetoken', process.env.SECRET_TOKEN);
     expect(req.jwt).toEqual({ id: 'testUser' });
     expect(next).toHaveBeenCalled();
   });
@@ -36,7 +36,7 @@ describe('isAuthenticated middleware', () => {
 
     isAuthenticated(req, res, next);
 
-    expect(jwt.verify).toHaveBeenCalledWith('testToken', process.env.SECRET_TOKEN);
+    expect(jwt.verify).toHaveBeenCalledWith('thisbetoken', process.env.SECRET_TOKEN);
     expect(res.status).toHaveBeenCalledWith(401);
     expect(next).not.toHaveBeenCalled();
   });

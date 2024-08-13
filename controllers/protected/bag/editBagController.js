@@ -5,7 +5,6 @@ import { IfPrimaryLogic } from '../../utils/ifPrimaryLogic.js';
 const schema = Joi.object({
   bagId: Joi.string().required(),
   bagName: Joi.string().required(),
-  token: Joi.string().required(),
   bagColor: Joi.string().pattern(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/).required(),
   isPrimary: Joi.boolean().required(),
 });

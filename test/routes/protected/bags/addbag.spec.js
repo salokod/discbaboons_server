@@ -3,15 +3,15 @@ import axios from 'axios';
 import http from 'http';
 import { expect, describe, it } from '@jest/globals';
 import Chance from 'chance';
-import app from '../../../app.js';
+import app from '../../../../app.js';
 
-import { addToUserTable } from '../../../controllers/discBaboonUserDataBaseDynamo.js';
+import { addToUserTable } from '../../../../controllers/discBaboonUserDataBaseDynamo.js';
 
-jest.mock('../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
+jest.mock('../../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
   addToUserTable: jest.fn(() => true),
 }));
 
-jest.mock('../../../middleware/auth.js', () => ({
+jest.mock('../../../../middleware/auth.js', () => ({
   isAuthenticated: jest.fn((req, res, next) => {
     req.jwt = { id: 'mockedBaboonId' };
     next();
@@ -40,7 +40,6 @@ describe('check the /protected/addbag endpoints', () => {
         bagName: chance.animal(),
         bagColor: chance.color({ format: 'hex' }),
         isPrimary: false,
-        token: chance.string(),
       };
       addToUserTable.mockResolvedValue(true);
 
@@ -56,21 +55,6 @@ describe('check the /protected/addbag endpoints', () => {
         bagColor: '#FFFFFF',
         isPrimary: false,
         token: chance.string(),
-      };
-      // addToUserTable.mockResolvedValue(true);
-
-      await axios.post(`${baseURL}/api/v2/protected/bag/addbag`, newBagJSON);
-      expect(true).toBe(false);
-    } catch (error) {
-      expect(error.response.status).toBe(400);
-    }
-  });
-  it('/protected/bag/addbag - returns 400 if all if token is not in payload', async () => {
-    try {
-      const newBagJSON = {
-        bagName: chance.animal(),
-        bagColor: '#FFFFFF',
-        isPrimary: false,
       };
       // addToUserTable.mockResolvedValue(true);
 

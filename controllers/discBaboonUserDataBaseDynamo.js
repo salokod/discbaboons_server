@@ -195,13 +195,18 @@ export const findAllDiscs = async (baboonid) => {
   try {
     const params = {
       KeyConditionExpression: '#id = :baboonid and begins_with(#type,:baboontype)',
+      FilterExpression: '#status = :discStatus',
       ExpressionAttributeValues: {
         ':baboonid': baboonid,
         ':baboontype': '#disc',
+        ':discStatus': 'active',
+
       },
       ExpressionAttributeNames: {
         '#id': 'baboonid',
         '#type': 'baboontype',
+        '#status': 'discStatus',
+
       },
       TableName: TABLE_NAME,
     };
@@ -388,7 +393,7 @@ export const updateRoundTransaction = async (transactionData) => {
   return result;
 };
 
-export const deleteDiscsTranasaction = async (transactionData) => {
+export const deleteDiscsTransaction = async (transactionData) => {
   const command = new TransactWriteCommand({
     TransactItems: transactionData,
   });

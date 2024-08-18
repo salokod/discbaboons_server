@@ -4,10 +4,10 @@ import http from 'http';
 import { expect, describe, it } from '@jest/globals';
 import app from '../../../../app.js';
 
-import { findAllDiscs } from '../../../../controllers/discBaboonUserDataBaseDynamo.js';
+import { getAllDiscs } from '../../../../controllers/discTableDynamo.js';
 
-jest.mock('../../../../controllers/discBaboonUserDataBaseDynamo.js', () => ({
-  findAllDiscs: jest.fn(() => true),
+jest.mock('../../../../controllers/discTableDynamo.js', () => ({
+  getAllDiscs: jest.fn(() => true),
 }));
 
 jest.mock('../../../../middleware/auth.js', () => ({
@@ -31,20 +31,20 @@ describe('check the /protected/disc/findalldiscs endpoints', () => {
     server.close(done);
   });
 
-  it('/protected/disc/findalldiscs - returns 200 if all is well', async () => {
+  it('/protected/disc/getdiscsfromdatabase - returns 200 if all is well', async () => {
     try {
-      findAllDiscs.mockResolvedValue({ Items: [{ id: 1 }] });
-      const response = await axios.get(`${baseURL}/api/v2/protected/disc/findalldiscs`);
+      getAllDiscs.mockResolvedValue({ Items: [{ id: 1 }] });
+      const response = await axios.get(`${baseURL}/api/v2/protected/disc/getdiscsfromdatabase`);
       expect(response.status).toBe(200);
     } catch (error) {
       expect(true).toBe(false);
     }
   });
 
-  it('/protected/disc/findalldiscs - returns 500 if disc call fails', async () => {
+  it('/protected/disc/getdiscsfromdatabase - returns 500 if disc call fails', async () => {
     try {
-      findAllDiscs.mockRejectedValue();
-      await axios.get(`${baseURL}/api/v2/protected/disc/findalldiscs`);
+      getAllDiscs.mockRejectedValue();
+      await axios.get(`${baseURL}/api/v2/protected/disc/getdiscsfromdatabase`);
       expect(true).toBe(false);
     } catch (error) {
       expect(error.response.status).toBe(500);

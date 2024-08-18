@@ -2,7 +2,7 @@ import express from 'express';
 import addBagController from '../../../controllers/protected/bag/addBagController.js';
 import deleteBagController from '../../../controllers/protected/bag/deleteBagController.js';
 import editBagController from '../../../controllers/protected/bag/editBagController.js';
-import findAllBagController from '../../../controllers/protected/bag/findAllBagController.js.js';
+import findAllBagController from '../../../controllers/protected/bag/findAllBagController.js';
 
 const router = express.Router();
 

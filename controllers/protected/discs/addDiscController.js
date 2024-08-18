@@ -37,6 +37,7 @@ const addDiscController = async (req, res) => {
       fade,
       discColor,
       dateOfPurchase,
+      discStatus: 'active',
       discType,
       discPlastic,
       weight,

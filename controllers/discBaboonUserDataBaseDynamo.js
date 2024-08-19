@@ -486,7 +486,7 @@ export const findAllTroop = async (baboonid) => {
     const result = await ddbDocClient.send(command);
     return result;
   } catch (error) {
-    return false;
+    return new Error('Error finding troop requests');
   }
 };
 

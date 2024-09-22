@@ -44,7 +44,7 @@ describe('check the /protected/bag/deletebag endpoints', () => {
 
       const response = await axios.post(`${baseURL}/api/v2/protected/bag/deletebag`, newBagJSON);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });

@@ -52,7 +52,7 @@ const submitRoundController = async (req, res) => {
 
     const baboonid = req.jwt.id;
     const {
-      // eslint-disable-next-line camelcase
+       
       baboontype, otherBaboons, baboontype_bet, otherBaboons_bet, gamesPlayed_bet,
     } = req.body;
     const roundStatus = 'completed';
@@ -92,22 +92,22 @@ const submitRoundController = async (req, res) => {
       transactionData.push(additionalUsersPayload);
     });
 
-    // eslint-disable-next-line camelcase
+     
     if (baboontype_bet !== undefined) {
-      // eslint-disable-next-line camelcase
+       
       const mainUserPayload_bets = {
         Update: {
           TableName: 'DiscBaboonUserData',
           Key: {
             baboonid,
-            // eslint-disable-next-line camelcase
+             
             baboontype: baboontype_bet,
           },
           UpdateExpression:
               'set roundStatus = :roundStatus, gamesPlayed = :gamesPlayed',
           ExpressionAttributeValues: {
             ':roundStatus': roundStatus,
-            // eslint-disable-next-line camelcase
+             
             ':gamesPlayed': gamesPlayed_bet,
           },
           ReturnValues: 'ALL_NEW',
@@ -115,22 +115,22 @@ const submitRoundController = async (req, res) => {
       };
       transactionData.push(mainUserPayload_bets);
 
-      // eslint-disable-next-line camelcase
+       
       otherBaboons_bet.forEach((baboon) => {
-        // eslint-disable-next-line camelcase
+         
         const additionalUsersPayload_bets = {
           Update: {
             TableName: 'DiscBaboonUserData',
             Key: {
               baboonid: baboon.baboonFriendId,
-              // eslint-disable-next-line camelcase
+               
               baboontype: baboontype_bet,
             },
             UpdateExpression:
                 'set roundStatus = :roundStatus, gamesPlayed = :gamesPlayed',
             ExpressionAttributeValues: {
               ':roundStatus': roundStatus,
-              // eslint-disable-next-line camelcase
+               
               ':gamesPlayed': gamesPlayed_bet,
             },
             ReturnValues: 'ALL_NEW',
@@ -142,7 +142,7 @@ const submitRoundController = async (req, res) => {
 
     await updateRoundTransaction(transactionData);
     return res.status(200).json({ message: 'Round update success' });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Error submitting round' });
   }
 };

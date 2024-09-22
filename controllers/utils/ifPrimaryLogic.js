@@ -3,7 +3,6 @@ import {
   updateBagPriorityTransaction,
 } from '../discBaboonUserDataBaseDynamo.js';
 
-// eslint-disable-next-line import/prefer-default-export
 export const IfPrimaryLogic = async (bagId, baboonid) => {
   // const response = await axios.get("/api/v1/bag/findallbags");
   const primaryFalseArray = [];

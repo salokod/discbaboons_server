@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 
 // middleware/auth.js
-// eslint-disable-next-line import/prefer-default-export, consistent-return
 export const isAuthenticated = (req, res, next) => {
   // This is a placeholder for authentication logic.
   // In a real-world application, you would check if the user is authenticated here.

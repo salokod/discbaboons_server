@@ -97,7 +97,7 @@ describe('check the /public/auth/login endpoint', () => {
     const methods = ['get', 'put', 'delete'];
     expect.assertions(methods.length);
 
-    // eslint-disable-next-line no-restricted-syntax
+     
     for (const method of methods) {
       try {
         const dataForMock = {
@@ -106,7 +106,7 @@ describe('check the /public/auth/login endpoint', () => {
           ScannedCount: 1,
         };
         findOneUserName.mockResolvedValue(dataForMock);
-        // eslint-disable-next-line no-await-in-loop
+         
         await axios[method](`${baseURL}/api/v2/public/auth/login`);
 
         expect(true).toBe(false);
@@ -748,7 +748,7 @@ describe('check the /public/auth/forgotuser endpoint', () => {
         email: 'email@email.com',
       });
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });
@@ -768,7 +768,7 @@ describe('check the /public/auth/forgotuser endpoint', () => {
       });
 
       expect(sendEmail).not.toHaveBeenCalled();
-    } catch (error) {
+    } catch  {
       expect(true).toBe(false);
     }
   });
@@ -1097,10 +1097,10 @@ describe('check the /public/auth/changepass endpoint', () => {
     const methods = ['get', 'put', 'delete'];
     expect.assertions(methods.length);
 
-    // eslint-disable-next-line no-restricted-syntax
+     
     for (const method of methods) {
       try {
-        // eslint-disable-next-line no-await-in-loop
+         
         await axios[method](`${baseURL}/api/v2/public/auth/changepass`);
 
         expect(true).toBe(false);

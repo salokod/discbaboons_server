@@ -80,7 +80,7 @@ const addBaboonController = async (req, res) => {
       message: 'Troop Request Successful',
       response: allBaboonTroops.Items,
     });
-  } catch (error) {
+  } catch{
     return res.status(500).json({ message: 'Error adding baboon to troop' });
   }
 };

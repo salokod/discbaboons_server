@@ -85,7 +85,7 @@ const generateMockPayload = (withBaboons = false, withBets = false) => ({
   state: chance.state({ full: false }),
   city_uuid: chance.guid(),
   roundName: chance.word(),
-  // eslint-disable-next-line no-nested-ternary
+   
   chosenBaboons: withBaboons ? generateMockBaboons() : [],
   chosenBets: withBets ? generateMockBets() : { games: [], skinsAmount: 0 },
   totalWinLoss: chance.integer({ min: -100, max: 100 }),
@@ -143,7 +143,7 @@ describe('check the /protected/round/addround endpoints', () => {
       expect(betOnlyTransactions.length).toBe(0);
       expect(addRoundTransactions.mock.calls[0][0].length).toBe(expectedRoundTransactions);
       expect(addRoundTransactions).toHaveBeenCalledTimes(1);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });
@@ -189,7 +189,7 @@ describe('check the /protected/round/addround endpoints', () => {
       expect(betOnlyTransactions.length).toBe(expectedRoundTransactions / 2);
       expect(addRoundTransactions.mock.calls[0][0].length).toBe(expectedRoundTransactions);
       expect(addRoundTransactions).toHaveBeenCalledTimes(1);
-    } catch (error) {
+    } catch  {
       expect(true).toBe(false);
     }
   });
@@ -214,7 +214,7 @@ describe('check the /protected/round/addround endpoints', () => {
       // check addRoundTransactions is called with the correct amount of arguments
       expect(addRoundTransactions).toHaveBeenCalledTimes(1);
       expect(addRoundTransactions.mock.calls[0][0].length).toBe(1);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });

@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 
-// eslint-disable-next-line import/prefer-default-export
 export const sendEmail = async (subject, body, htmlBody, recipient) => {
   try {
     const transporter = nodemailer.createTransport({

@@ -32,12 +32,12 @@ export const findResetUniqueCode = async (resetUUID) => {
     };
     const command = new QueryCommand(params);
     return await ddbDocClient.send(command);
-  } catch (error) {
+  } catch {
     return false;
   }
 };
 
-export const findOneToken = async (lookupitem) => {
+export const findOneToken = async   (lookupitem) => {
   try {
     const params = {
       KeyConditionExpression: '#id = :lookupitem',

@@ -36,7 +36,7 @@ describe('check the /protected/disc/findalldiscs endpoints', () => {
       findAllDiscs.mockResolvedValue({ Items: [{ id: 1 }] });
       const response = await axios.get(`${baseURL}/api/v2/protected/disc/findalldiscs`);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });

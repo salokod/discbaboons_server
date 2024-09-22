@@ -51,6 +51,7 @@ const registerController = async (req, res) => {
       isAdmin: false,
       dateCreated: today,
     };
+    // eslint-disable-next-line no-unused-vars
     const { password: nothingHere, isAdmin, ...responsePayLoad } = userPayload;
 
     await addUserToUserDatabase(userPayload);

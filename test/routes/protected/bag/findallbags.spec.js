@@ -49,7 +49,7 @@ describe('check the /protected/bag/findallbags endpoints', () => {
 
       const response = await axios.get(`${baseURL}/api/v2/protected/bag/findallbags`);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });
@@ -63,7 +63,7 @@ describe('check the /protected/bag/findallbags endpoints', () => {
 
       const response = await axios.get(`${baseURL}/api/v2/protected/bag/findallbags`);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });

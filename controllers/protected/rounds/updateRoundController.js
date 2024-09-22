@@ -79,7 +79,7 @@ const updateRoundController = async (req, res) => {
 
     await updateRoundTransaction(transactionData);
     return res.status(200).json({ message: 'Round update success' });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Error updating round' });
   }
 };

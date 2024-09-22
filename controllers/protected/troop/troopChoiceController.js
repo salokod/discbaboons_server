@@ -38,7 +38,7 @@ const troopChoiceController = async (req, res) => {
     return res.status(200).json({
       message: 'Updated troop request, you baboon',
     });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Error updating troop status, you baboon' });
   }
 };

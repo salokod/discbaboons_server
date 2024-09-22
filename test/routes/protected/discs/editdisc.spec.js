@@ -57,7 +57,7 @@ describe('check the /protected/disc/editdisc endpoints', () => {
 
       const response = await axios.post(`${baseURL}/api/v2/protected/disc/editdisc`, newDiscJSON);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });

@@ -44,7 +44,7 @@ const removeDiscsController = async (req, res) => {
 
     await deleteDiscsTransaction(discsTransactions);
     return res.status(200).json({ message: 'Discs removed successfully.' });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Disc not added.  Try again!' });
   }
 };

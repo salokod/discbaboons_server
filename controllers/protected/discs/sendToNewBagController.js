@@ -49,7 +49,7 @@ const removeDiscsController = async (req, res) => {
 
     await sendDiscToNewBagTransaction(discsTransactions);
     return res.status(200).json({ message: 'Discs moved successfully.' });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Discs not moved.  Try again!' });
   }
 };

@@ -50,7 +50,7 @@ const addDiscController = async (req, res) => {
 
     await addToUserTable(payload);
     return res.status(200).json({ message: 'Disc Added Successfully' });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Disc not added.  Try again!' });
   }
 };

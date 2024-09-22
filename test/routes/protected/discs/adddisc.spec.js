@@ -54,7 +54,7 @@ describe('check the /protected/disc/adddiscs endpoints', () => {
 
       const response = await axios.post(`${baseURL}/api/v2/protected/disc/adddisc`, newDiscJSON);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch{
       expect(true).toBe(false);
     }
   });

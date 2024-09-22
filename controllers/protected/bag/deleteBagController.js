@@ -27,7 +27,7 @@ const deleteBagController = async (req, res) => {
         .status(500)
         .json({ message: 'Error Deleting Bag, try again later' });
     }
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Error, try again later.' });
   }
 };

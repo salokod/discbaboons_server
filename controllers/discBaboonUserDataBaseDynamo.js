@@ -39,7 +39,7 @@ export const batchDeleteBaboonData = async (array) => {
   let unprocessedItems = response.UnprocessedItems;
 
   while (unprocessedItems && Object.keys(unprocessedItems).length > 0) {
-    // eslint-disable-next-line no-await-in-loop
+     
     const output = await ddbDocClient.send(new BatchWriteCommand({ RequestItems: unprocessedItems }));
     unprocessedItems = output.UnprocessedItems;
   }
@@ -73,7 +73,7 @@ export const findAllBags = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -95,7 +95,7 @@ export const findAllRounds = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -117,7 +117,7 @@ export const findAllBets = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -140,7 +140,7 @@ export const findTroop = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -163,7 +163,7 @@ export const findDeletedDiscs = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -186,7 +186,7 @@ export const findLostDiscs = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -213,7 +213,7 @@ export const findAllDiscs = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -235,7 +235,7 @@ export const findOneBag = async (baboonid, bagId) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -257,7 +257,7 @@ export const findOneRound = async (baboonid, roundId) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -279,7 +279,7 @@ export const findOneRoundBets = async (baboonid, baboonBetId) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -451,7 +451,7 @@ export const getAllBaboonAssets = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return false;
   }
 };
@@ -485,7 +485,7 @@ export const findAllTroop = async (baboonid) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch{
     return new Error('Error finding troop requests');
   }
 };
@@ -507,7 +507,7 @@ export const findOneTroopRequest = async (baboonid, troopReq) => {
     const command = new QueryCommand(params);
     const result = await ddbDocClient.send(command);
     return result;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

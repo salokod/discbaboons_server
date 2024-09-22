@@ -49,7 +49,7 @@ export async function addToListMobile(user, refresher) {
   }
 }
 
-// eslint-disable-next-line consistent-return
+ 
 export async function tokenRefresh(req, res, refreshtoken) {
   let decoded = '';
   try {
@@ -100,7 +100,7 @@ export async function tokenRefresh(req, res, refreshtoken) {
     }
   }
 }
-// eslint-disable-next-line consistent-return
+ 
 export async function tokenRefreshApp(req, res, refreshtoken) {
   let decoded = '';
   try {

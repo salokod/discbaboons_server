@@ -7,7 +7,7 @@ const findTroopController = async (req, res) => {
       message: 'Here is your troop, baboon.',
       yourTroop: response.Items,
     });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Error retrieving your troop, you baboon' });
   }
 };

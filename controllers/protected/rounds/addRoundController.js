@@ -21,16 +21,16 @@ const processChosenBaboon = (baboon, otherBaboonArray, baboonBetResponse, skinsT
     baboonFriendUsername: baboon.baboonFriendUsername,
   });
   baboonBetResponse[0].holeData.forEach((hole) => {
-    // eslint-disable-next-line no-param-reassign
+     
     hole[baboon.baboonFriendId] = 0;
   });
-  // eslint-disable-next-line no-param-reassign
+   
   skinsTracker[baboon.baboonFriendId] = 0;
-  // eslint-disable-next-line no-param-reassign
+   
   skinsTracker[`${baboon.baboonFriendId}_money`] = 0;
-  // eslint-disable-next-line no-param-reassign
+   
   sideTracker[baboon.baboonFriendId] = 0;
-  // eslint-disable-next-line no-param-reassign
+   
   sideTracker[`${baboon.baboonFriendId}_money`] = 0;
 };
 
@@ -48,6 +48,7 @@ const processBet = (bet, skinsTracker, sideTracker) => {
   };
 };
 
+// eslint-disable-next-line no-unused-vars
 const createClone = (item) => (({ holeData, ...o }) => o)(item);
 
 const createPayload = (baboonId, baboontypeRound, baboonUsername, clone, today, roundName, holeData, otherBaboonArray) => ({
@@ -75,6 +76,7 @@ const createBaboonBetPayload = (baboonId, baboontypeBaboonBet, baboonUsername, c
       baboontype: baboontypeBaboonBet,
       baboonUsername,
       skinsAmount: chosenBets.skinsAmount,
+      // eslint-disable-next-line no-unused-vars
       betData: baboonBetResponse.map(({ holeData, ...keepAttrs }) => keepAttrs)[0],
       gamesPlayed,
       totalWinLoss,
@@ -90,7 +92,7 @@ const addRoundController = async (req, res) => {
   const baboonId = req.jwt.id;
   const baboonUsername = req.jwt.user;
   const {
-    // eslint-disable-next-line camelcase
+     
     chosenBaboons, chosenBets, totalWinLoss, roundName, state, city_uuid,
   } = req.body;
 
@@ -157,7 +159,7 @@ const addRoundController = async (req, res) => {
 
     const gamesPlayed = chosenBets.games.map((bet) => processBet(bet, skinsTracker, sideTracker));
 
-    // eslint-disable-next-line no-return-assign,no-param-reassign
+     
     baboonBetResponse[0].holeData.forEach((hole) => (hole[baboonId] = 0));
 
     const clone = createClone(courseResponse.Items[0]);
@@ -172,7 +174,7 @@ const addRoundController = async (req, res) => {
 
     chosenBaboons.forEach((friendBaboon) => {
       if (friendBaboon.registered !== false || friendBaboon.registered === undefined) {
-        // eslint-disable-next-line no-shadow
+         
         const otherBaboonArray = chosenBaboons
           .filter((filteredBaboon) => filteredBaboon.baboonFriendId !== friendBaboon.baboonFriendId)
           .map((filteredBaboon) => ({
@@ -199,7 +201,7 @@ const addRoundController = async (req, res) => {
       message: 'Round created successfully.',
       roundInfo: baboontypeRound.replace('#', ''),
     });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Round not added.  Try again!' });
   }
 };

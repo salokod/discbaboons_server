@@ -63,7 +63,7 @@ const editDiscController = async (req, res) => {
     }
     await addToUserTable(payload);
     return res.status(200).json({ message: 'Disc Edited Successfully' });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Disc not edited.  Try again!' });
   }
 };

@@ -52,7 +52,7 @@ describe('check the /protected/disc/sendtonewbagendpoints', () => {
 
       const response = await axios.post(`${baseURL}/api/v2/protected/disc/sendtonewbag`, sendToNewBagJSON);
       expect(response.status).toBe(200);
-    } catch (error) {
+    } catch {
       expect(true).toBe(false);
     }
   });

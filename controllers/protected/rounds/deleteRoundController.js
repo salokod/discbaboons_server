@@ -20,7 +20,7 @@ const deleteRoundController = async (req, res) => {
 
     await deleteRoundById(deleteRoundJSON);
     return res.status(200).json({ message: 'Round Deleted Successfully' });
-  } catch (error) {
+  } catch {
     return res
       .status(500)
       .json({ message: 'Error Deleting Round, try again later' });

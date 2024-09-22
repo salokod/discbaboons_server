@@ -42,7 +42,7 @@ const addBagController = async (req, res) => {
     }
 
     return res.status(200).json({ message: 'Bag added' });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Error, try again later.' });
   }
 };

@@ -6,7 +6,7 @@ router.get('/lol', (req, res) => {
     // Your logic here. If an error occurs in this block, it will be caught
     // and a 500 status code will be returned.
     return res.send('hi').status(200);
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'An error occurred. Please try again later.' });
   }
 });

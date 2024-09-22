@@ -91,7 +91,7 @@ describe('check the /protected/round/updateround endpoints', () => {
       // expect updateRoundTransaction to be called with an array with 1 element
       expect(updateRoundTransaction.mock.calls[0][0].length).toEqual(1);
       expect(updateRoundTransaction).toHaveBeenCalledWith(expectedPayload);
-    } catch (e) {
+    } catch {
       expect(true).toBe(false);
     }
   });
@@ -220,7 +220,7 @@ describe('check the /protected/round/updateround endpoints', () => {
       // expect updateRoundTransaction to be called with an array with 1 element
       expect(updateRoundTransaction.mock.calls[0][0].length).toEqual(mockData.otherBaboons.length + 1);
       expect(updateRoundTransaction).toHaveBeenCalledWith(expectedPayload);
-    } catch (e) {
+    } catch {
       expect(true).toBe(false);
     }
   });

@@ -72,20 +72,19 @@ export const getCoursesByState = async (state) => {
 
   const command = new QueryCommand(params);
   try {
-    const result = await dynamoClient.send(command);
-    return result;
-  } catch (error) {
+    return await dynamoClient.send(command);
+  } catch {
     return false;
   }
 };
 
-// eslint-disable-next-line camelcase
+ 
 export const getOneCourse = async (state, city_uuid) => {
   const params = {
     KeyConditionExpression: '#stateAbbr = :stateAbbr and #city_uuid = :city_uuid',
     ExpressionAttributeValues: {
       ':stateAbbr': state,
-      // eslint-disable-next-line camelcase
+       
       ':city_uuid': city_uuid,
     },
     ExpressionAttributeNames: {
@@ -97,9 +96,8 @@ export const getOneCourse = async (state, city_uuid) => {
 
   const command = new QueryCommand(params);
   try {
-    const result = await dynamoClient.send(command);
-    return result;
-  } catch (error) {
+    return await dynamoClient.send(command);
+  } catch  {
     return false;
   }
 };

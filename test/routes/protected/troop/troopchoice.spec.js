@@ -179,7 +179,7 @@ describe('check the /protected/troop/troopchoice endpoints', () => {
     try {
       const response = await axios.post(`${baseURL}/api/v2/protected/troop/troopchoice`, payload);
       expect(response.status).toBe(200);
-    } catch (e) {
+    } catch {
       expect(true).toBe(false);
     }
   });

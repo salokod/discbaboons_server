@@ -64,7 +64,7 @@ export const findOneUserByEmail = async (email) => {
 
     const command = new QueryCommand(params);
     return await ddbDocClient.send(command);
-  } catch (error) {
+  } catch {
     return false;
   }
 };

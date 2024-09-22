@@ -172,7 +172,7 @@ describe('check the /protected/round/submitround endpoints', () => {
       expect(response.status).toBe(200);
       expect(updateRoundTransaction.mock.calls[0][0].length).toEqual((mockPayload.otherBaboons.length + 1) * 2);
       // expect(updateRoundTransaction).toHaveBeenCalledWith(expectedPayload);
-    } catch (e) {
+    } catch {
       expect(true).toBe(false);
     }
   });
@@ -191,13 +191,13 @@ describe('check the /protected/round/submitround endpoints', () => {
   it('returns 400 if any required field is missing', async () => {
     const requiredFields = ['baboontype', 'baboonid'];
 
-    // eslint-disable-next-line no-restricted-syntax
+     
     for (const field of requiredFields) {
       const payload = generateValidPayload();
       delete payload[field];
 
       try {
-        // eslint-disable-next-line no-await-in-loop
+         
         await axios.post(`${baseURL}/api/v2/protected/round/submitround`, payload);
         expect(true).toBe(false); // Should not reach here
       } catch (error) {

@@ -108,7 +108,7 @@ describe('check the /protected/troop/addbaboon endpoints', () => {
 
       const response = await axios.post(`${baseURL}/api/v2/protected/troop/addbaboon`, payload);
       expect(response.status).toBe(200);
-    } catch (e) {
+    } catch {
       expect(true).toBe(false);
     }
   });
@@ -123,7 +123,7 @@ describe('check the /protected/troop/addbaboon endpoints', () => {
 
       const response = await axios.post(`${baseURL}/api/v2/protected/troop/addbaboon`, payload);
       expect(response.status).toBe(200);
-    } catch (e) {
+    } catch {
       expect(true).toBe(false);
     }
   });

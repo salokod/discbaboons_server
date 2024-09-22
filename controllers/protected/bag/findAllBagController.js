@@ -14,7 +14,7 @@ const findAllBagController = async (req, res) => {
         return a.bagName.localeCompare(b.bagName);
       }),
     });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ message: 'Error finding all bags' });
   }
 };

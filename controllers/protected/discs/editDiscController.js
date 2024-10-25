@@ -51,6 +51,7 @@ const editDiscController = async (req, res) => {
       discType,
       discPlastic,
       weight,
+      discStatus: 'active',
     };
 
     const { error } = schema.validate(req.body);

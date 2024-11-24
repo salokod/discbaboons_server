@@ -1,6 +1,6 @@
 import { findAllRounds } from '../../discBaboonUserDataBaseDynamo.js';
 
-const deleteRoundController = async (req, res) => {
+const getRoundController = async (req, res) => {
   try {
     const baboonid = req.jwt.id;
     const { Items, Count } = await findAllRounds(baboonid);
@@ -13,4 +13,4 @@ const deleteRoundController = async (req, res) => {
   }
 };
 
-export default deleteRoundController;
+export default getRoundController;

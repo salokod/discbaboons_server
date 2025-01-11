@@ -19,7 +19,7 @@ const updateRoundBetsController = async (req, res) => {
     });
 
     const sideBetDetailsSchema = Joi.object({
-        hole: Joi.number().required(),
+        hole: Joi.number().allow(null).required(),
         winnerUsername: Joi.string(),
         sideBetLabel: Joi.string().required(),
         winnerId: Joi.string(),

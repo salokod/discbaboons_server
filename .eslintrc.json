@@ -1,0 +1,15 @@
+{
+    "extends": "airbnb-base",
+    "env": {
+      "node": true,
+      "jest": true,
+      "es2022": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2022,
+      "sourceType": "module"
+    },
+    "rules": {
+      "import/extensions": ["error", "ignorePackages"]
+    }
+  }

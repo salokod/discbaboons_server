@@ -15,16 +15,14 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:coverage:report": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "migrate:devl": "flyway -configFiles=conf/flyway.devl.conf migrate",
     "migrate:devl:info": "flyway -configFiles=conf/flyway.devl.conf info",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.31.0",

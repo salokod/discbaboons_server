@@ -1,7 +1,8 @@
-name: Verify NPM
+name: Verify
 
 on:
   pull_request:
+    branches: [ main ]
 
 jobs:
   verify:
@@ -9,15 +10,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '23'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run npm verify
-        run: npm verify
+      - name: Run verification
+        run: npm run verify

@@ -129,3 +129,5 @@ dist
 .pnp.*
 
 .idea/*
+conf/flyway.devl.conf
+conf/flyway.prod.conf

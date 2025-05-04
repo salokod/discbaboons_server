@@ -1,48 +1,21 @@
 {
   "name": "discbaboons_server",
   "version": "1.0.0",
-  "description": "Backend for DiscBaboonsv2",
+  "description": "",
+  "homepage": "https://github.com/salokod/discbaboons_server#readme",
+  "bugs": {
+    "url": "https://github.com/salokod/discbaboons_server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salokod/discbaboons_server.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test:coverage": "jest --coverage --watchAll",
-    "test": "jest --verbose --watchAll",
-    "dev": "nodemon index.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "start": "node index.js"
-  },
-  "author": "Spiro Dokolas",
-  "license": "ISC",
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.588.0",
-    "@aws-sdk/lib-dynamodb": "^3.588.0",
-    "aws-sdk": "^2.1632.0",
-    "bcrypt": "^5.1.1",
-    "cookies": "^0.9.1",
-    "dotenv": "^16.4.5",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "express": "^4.19.2",
-    "joi": "^17.13.1",
-    "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^6.9.14",
-    "uuid": "^9.0.1"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
-  },
-  "devDependencies": {
-    "@babel/core": "^7.24.6",
-    "@babel/preset-env": "^7.24.6",
-    "@eslint/js": "^9.11.0",
-    "@jest/globals": "^29.7.0",
-    "axios": "^1.7.2",
-    "babel-jest": "^29.7.0",
-    "chance": "^1.1.11",
-    "eslint": "^8.57.1",
-    "globals": "^15.9.0",
-    "jest": "^29.7.0"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate:devl": "flyway -configFiles=conf/flyway.devl.conf migrate"
   }
 }

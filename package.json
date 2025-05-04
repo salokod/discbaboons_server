@@ -19,7 +19,8 @@
     "migrate:devl": "flyway -configFiles=conf/flyway.devl.conf migrate",
     "migrate:devl:info": "flyway -configFiles=conf/flyway.devl.conf info",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "verify": "npm run lint && npm test"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

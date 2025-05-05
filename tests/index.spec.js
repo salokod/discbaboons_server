@@ -10,14 +10,14 @@ describe('Express App', () => {
   let server;
 
   // Start server before tests
-  beforeAll((done) => {
-    server = app.listen(PORT, () => done());
-  });
+  beforeAll(() => new Promise((resolve) => {
+    server = app.listen(PORT, resolve);
+  }));
 
-  // Close server after tests
-  afterAll((done) => {
-    server.close(done);
-  });
+  // Close server after all tests
+  afterAll(() => new Promise((resolve) => {
+    server.close(resolve);
+  }));
 
   describe('GET /', () => {
     it('should return 200 status and correct message', async () => {

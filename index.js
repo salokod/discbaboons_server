@@ -1,19 +1,30 @@
-import app from './src/app.js';
+import express from 'express';
 
-const PORT = process.env.PORT || 3000;
+const port = 3000;
 
-// No conditional - server will always start when this file is imported/run
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const app = express();
 
-// Handle graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received, shutting down gracefully');
-  server.close(() => {
-    console.log('Server closed');
-    process.exit(0);
+app.get('/', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'hello world',
   });
 });
 
+// Add health endpoint for testing
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'hello world',
+  });
+});
+
+// Only start the server if this file is executed directly
+if (import.meta.url === new URL(import.meta.url).href) {
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+  });
+}
+
+// Export app for testing
 export default app;

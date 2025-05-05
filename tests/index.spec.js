@@ -1,42 +1,58 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { expect, jest } from '@jest/globals';
+import {
+  describe, it, expect, beforeAll, afterAll,
+} from '@jest/globals';
 import axios from 'axios';
+import app from '../index.js';
 
-describe('Express Server Initialization', () => {
-  const TEST_PORT = 3000;
-  const BASE_URL = `http://localhost:${TEST_PORT}`;
+describe('Express App', () => {
+  const PORT = 3001; // Use different port than the main app
+  const BASE_URL = `http://localhost:${PORT}`;
+  let server;
 
-  beforeEach(() => {
-    // Clear mocks between tests
-    jest.clearAllMocks();
+  // Start server before tests
+  beforeAll((done) => {
+    server = app.listen(PORT, () => done());
   });
 
-  describe('Server connectivity', () => {
-    it('should connect to a running server', async () => {
-      try {
-        // This will only pass if a server is actually running on port 3000
-        const response = await axios.get(`${BASE_URL}/health`);
-        expect(response.status).toBe(200);
-      } catch (error) {
-        if (error.code === 'ECONNREFUSED') {
-          // Create a more readable error message
-          throw new Error(
-            '\n\n⚠️  SERVER NOT RUNNING ⚠️\n'
-            + `Please start the server on port ${TEST_PORT} before running tests.\n`
-            + 'Run this command in a separate terminal:\n\n'
-            + 'node index.js\n\n',
-          );
-        }
-        // If it's another type of error, just rethrow it
-        throw error;
-      }
-    });
+  // Close server after tests
+  afterAll((done) => {
+    server.close(done);
+  });
 
-    it('should connect to the correct port', async () => {
-      // Verify we're using the expected port by checking server response
-      const response = await axios.get(`${BASE_URL}/health`);
+  describe('GET /', () => {
+    it('should return 200 status and correct message', async () => {
+      const response = await axios.get(`${BASE_URL}/`);
+
       expect(response.status).toBe(200);
-      expect(response.data.message).toBe('hello world');
+      expect(response.data).toEqual({
+        status: 'OK',
+        message: 'hello world',
+      });
+    });
+  });
+
+  describe('GET /health', () => {
+    it('should return 200 status and health information', async () => {
+      const response = await axios.get(`${BASE_URL}/health`);
+
+      expect(response.status).toBe(200);
+      expect(response.data).toEqual({
+        status: 'OK',
+        message: 'hello world',
+      });
+    });
+  });
+
+  // Add tests for routes that don't exist
+  describe('Non-existent routes', () => {
+    it('should return 404 for unknown routes', async () => {
+      try {
+        await axios.get(`${BASE_URL}/nonexistent-route`);
+        // If we get here, the request didn't fail as expected
+        throw new Error('Expected request to fail with 404');
+      } catch (error) {
+        expect(error.response.status).toBe(404);
+      }
     });
   });
 });

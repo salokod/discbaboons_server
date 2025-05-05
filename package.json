@@ -20,7 +20,9 @@
     "migrate:devl:info": "flyway -configFiles=conf/flyway.devl.conf info",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "verify": "npm run lint && npm test"
+    "verify": "npm run lint && npm test",
+    "start": "node index.js",
+    "start:devl": "nodemon index.js --exec 'node --experimental-vm-modules'"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

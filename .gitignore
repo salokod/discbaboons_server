@@ -131,3 +131,4 @@ dist
 .idea/*
 conf/flyway.devl.conf
 conf/flyway.prod.conf
+.DS_Store

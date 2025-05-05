@@ -1,20 +1,58 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { expect } from '@jest/globals';
+import {
+  describe, it, expect, beforeAll, afterAll,
+} from '@jest/globals';
+import axios from 'axios';
+import app from '../index.js';
 
-describe('Basic functionality', () => {
-  it('should pass a simple test', () => {
-    expect(1 + 1).toBe(2);
+describe('Express App', () => {
+  const PORT = 3001; // Use different port than the main app
+  const BASE_URL = `http://localhost:${PORT}`;
+  let server;
+
+  // Start server before tests
+  beforeAll(() => new Promise((resolve) => {
+    server = app.listen(PORT, resolve);
+  }));
+
+  // Close server after all tests
+  afterAll(() => new Promise((resolve) => {
+    server.close(resolve);
+  }));
+
+  describe('GET /', () => {
+    it('should return 200 status and correct message', async () => {
+      const response = await axios.get(`${BASE_URL}/`);
+
+      expect(response.status).toBe(200);
+      expect(response.data).toEqual({
+        status: 'OK',
+        message: 'hello world',
+      });
+    });
   });
 
-  it('should work with arrays', () => {
-    const array = [1, 2, 3];
-    expect(array).toHaveLength(3);
-    expect(array).toContain(2);
+  describe('GET /health', () => {
+    it('should return 200 status and health information', async () => {
+      const response = await axios.get(`${BASE_URL}/health`);
+
+      expect(response.status).toBe(200);
+      expect(response.data).toEqual({
+        status: 'OK',
+        message: 'hello world',
+      });
+    });
   });
 
-  it('should work with objects', () => {
-    const obj = { name: 'test', value: 42 };
-    expect(obj).toHaveProperty('name', 'test');
-    expect(obj).toEqual({ name: 'test', value: 42 });
+  // Add tests for routes that don't exist
+  describe('Non-existent routes', () => {
+    it('should return 404 for unknown routes', async () => {
+      try {
+        await axios.get(`${BASE_URL}/nonexistent-route`);
+        // If we get here, the request didn't fail as expected
+        throw new Error('Expected request to fail with 404');
+      } catch (error) {
+        expect(error.response.status).toBe(404);
+      }
+    });
   });
 });

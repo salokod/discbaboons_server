@@ -1,28 +1,12 @@
-import express from 'express';
+import app from './src/app.js';
 
-const port = 3000;
-
-const app = express();
-
-app.get('/', (req, res) => {
-  res.json({
-    status: 'OK',
-    message: 'hello world',
-  });
-});
-
-// Add health endpoint for testing
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    message: 'hello world',
-  });
-});
+const port = process.env.PORT || 3000;
 
 // Only start the server if this file is executed directly
-if (import.meta.url === new URL(import.meta.url).href) {
+if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    // eslint-disable-next-line no-console
+    console.log(`Server running on port ${port}`);
   });
 }
 

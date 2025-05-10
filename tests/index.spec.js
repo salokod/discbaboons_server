@@ -3,9 +3,10 @@ import {
 } from '@jest/globals';
 import axios from 'axios';
 import app from '../index.js';
+import config from '../config/index.js';
 
 describe('Express App', () => {
-  const PORT = 3001; // Use different port than the main app
+  const PORT = config.port; // Use test port from config
   const BASE_URL = `http://localhost:${PORT}`;
   let server;
 

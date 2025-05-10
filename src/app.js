@@ -11,14 +11,14 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.json({
     status: 'OK',
-    message: 'hello worldssss',
+    message: 'hello world',
   });
 });
 
 // Health check endpoint - needed for your tests
 app.get('/health', (req, res) => {
   res.status(200).json({
-    status: 'OKs',
+    status: 'OK',
     message: 'hello world',
   });
 });

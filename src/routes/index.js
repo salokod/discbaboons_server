@@ -6,8 +6,4 @@ const router = express.Router();
 // Mount route modules
 router.use('/auth', authRoutes);
 
-// Add more route modules as needed
-// router.use('/rounds', roundsRoutes);
-// router.use('/users', userRoutes);
-
 export default router;

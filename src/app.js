@@ -1,7 +1,14 @@
 import express from 'express';
+import pinoHttp from 'pino-http';
 import routes from './routes/index.js';
+import logger from '../utils/logger.js';
 
 const app = express();
+
+// Add pino-http middleware for request logging
+app.use(pinoHttp({
+  logger,
+}));
 
 // Body parser middleware
 app.use(express.json());
